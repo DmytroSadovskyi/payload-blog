@@ -12,6 +12,11 @@ type Props = {
 }
 
 export const generatePreviewPath = ({ collection, slug }: Props) => {
+  const baseUrl =
+    process.env.NODE_ENV === 'production'
+      ? process.env.NEXT_PUBLIC_SERVER_URL
+      : 'http://localhost:3000'
+
   const encodedParams = new URLSearchParams({
     slug,
     collection,
@@ -19,7 +24,7 @@ export const generatePreviewPath = ({ collection, slug }: Props) => {
     previewSecret: process.env.PREVIEW_SECRET || '',
   })
 
-  const url = `/next/preview?${encodedParams.toString()}`
+  const url = `${baseUrl}/next/preview?${encodedParams.toString()}`
 
   return url
 }
